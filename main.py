@@ -4,7 +4,6 @@ from tkinter.scrolledtext import ScrolledText
 from PIL import ImageTk, Image
 import pandas as pd
 import os
-import tkinter.font as tkFont
 
 DARK_BG = "#1e1e1e"
 DARK_FG = "#ffffff"
@@ -22,9 +21,9 @@ class DashboardApp(tk.Tk):
 
         self.metrics = {
             "IPG": ("table", "metricas/ipg.csv"),
-            "Pacotes por IP": ("table", "metricas/packets_per_min.csv"),
+            "Pacotes por minuto": ("table", "metricas/packets_per_min.csv"),
             "Burstness": ("table", "metricas/burstness.csv"),
-            "Distribuição por Janela": ("image", "metricas/test.png"),
+            "Distribuição por Janela": ("image", "metricas/windowed_packets.png"),
             "CDF dos Pacotes": ("image", "metricas/cdf_packet_sizes.png"),
             "Skewness/Kurtosis IPG": ("text", "metricas/ipg_stats.txt"),
             "Horizontal Scan": ("table", "metricas/suspicious_ips.csv"),
@@ -95,7 +94,7 @@ class DashboardApp(tk.Tk):
             df = pd.read_csv(path)
 
             # Correções específicas
-            if metric_name == "Pacotes por IP":
+            if metric_name == "Pacotes por minuto":
                 df = pd.read_csv(path)
 
                 # Garante que 'time_bin' está no índice
@@ -141,7 +140,7 @@ class DashboardApp(tk.Tk):
                 text.pack(fill="both", expand=True, padx=10, pady=10)
                 return
 
-            # Para os demais (e também para Pacotes por IP após transposição)
+            # Para os demais
             text = ScrolledText(self.main_frame, wrap="none", font=("Courier", 10), bg=DARK_BG, fg=DARK_FG,
                                 insertbackground='white')
             text.insert("1.0", df.to_string(index=False, line_width=None))
